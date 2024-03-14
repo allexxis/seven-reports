@@ -1,15 +1,15 @@
+import LoadingBounce from '@components/LoadingBounce';
 import RippleButton from '@components/RippleButton';
 import { THEME } from '@src/constants/theme';
-import LoadingBounce from '@components/LoadingBounce';
 import React from 'react';
 import {
+   Pressable,
    ButtonProps as RNButtonProps,
+   StyleProp,
    StyleSheet,
    Text,
-   Pressable,
    View,
    ViewStyle,
-   StyleProp,
 } from 'react-native';
 
 export type ButtonProps = Omit<RNButtonProps, 'title'> & {

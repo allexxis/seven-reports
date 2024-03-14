@@ -24,6 +24,7 @@ const Input: FC<InputProps> = ({ type, ...props }) => {
             <Ionicons size={22} name={'search'} color={'gray'} />
          )}
          <TextInput
+            autoCapitalize="none"
             secureTextEntry={type === 'password' && showPassword}
             selectionColor={THEME.colors.inputBorderFocus}
             placeholderTextColor={THEME.colors.textPlaceholder}

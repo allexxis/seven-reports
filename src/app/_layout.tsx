@@ -51,30 +51,30 @@ export default function RootLayout() {
       return null;
    }
 
-   return (
-      <ClerkProvider
-         publishableKey={'pk_test_ZnVsbC1zbmlwZS01Mi5jbGVyay5hY2NvdW50cy5kZXYk'}
-      >
-         <RootLayoutNav />
-      </ClerkProvider>
-   );
+   return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
    const colorScheme = useColorScheme();
 
    return (
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-         <Stack>
-            <Stack.Screen
-               name="index"
-               options={{
-                  headerShown: false,
-               }}
-            />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-         </Stack>
-      </ThemeProvider>
+      <ClerkProvider
+         publishableKey={'pk_test_ZnVsbC1zbmlwZS01Mi5jbGVyay5hY2NvdW50cy5kZXYk'}
+      >
+         <ThemeProvider
+            value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+         >
+            <Stack>
+               <Stack.Screen
+                  name="index"
+                  options={{
+                     headerShown: false,
+                  }}
+               />
+               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+               <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            </Stack>
+         </ThemeProvider>
+      </ClerkProvider>
    );
 }

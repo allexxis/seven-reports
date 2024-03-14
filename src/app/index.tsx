@@ -11,23 +11,26 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { router } from 'expo-router';
-
+import GoogleOAuth from '@components/Auth/GoogleOAuth';
 type Props = any;
 const Login: React.FC<Props> = ({ ...props }) => {
-   console.log(props);
    const [loading, setL] = useState(false);
    const { isSignedIn } = useAuth();
    const { signIn, setActive, isLoaded } = useSignIn();
-   const [emailAddress, setEmailAddress] = React.useState('');
-   const [password, setPassword] = React.useState('');
-   const [error, setError] = React.useState('');
-   if (isSignedIn) router.replace('/(tabs)');
+   const [emailAddress, setEmailAddress] = useState('');
+   const [password, setPassword] = useState('');
+   const [error, setError] = useState('');
+   const [showGoogleAuth, setShowGoogleAuth] = useState(false);
+   if (isLoaded && isSignedIn) router.replace('/(tabs)');
+
    useEffect(() => {
-      if (isLoaded) {
+      if (isSignedIn) {
          router.replace('/(tabs)');
       }
    }, [isLoaded]);
-
+   const onGooglePress = async () => {
+      setShowGoogleAuth(true);
+   };
    const onSignInPress = async () => {
       if (emailAddress === '' || password === '') {
          return setError('Los campos no pueden estar vacios');
@@ -45,7 +48,6 @@ const Login: React.FC<Props> = ({ ...props }) => {
          // This indicates the user is signed in
          await setActive({ session: completeSignIn.createdSessionId });
       } catch (err: any) {
-         console.log(err.errors);
          if (err.errors && err.errors.length > 0) {
             if (err.errors[0].code === 'form_identifier_not_found') {
                setError('Cuenta no encontrada');
@@ -60,6 +62,18 @@ const Login: React.FC<Props> = ({ ...props }) => {
       }
       setL(false);
    };
+   if (showGoogleAuth) {
+      return (
+         <Container safeArea>
+            <GoogleOAuth
+               closeAuth={() => {
+                  setShowGoogleAuth(false);
+               }}
+               setErrorMessage={setError}
+            />
+         </Container>
+      );
+   }
    return (
       <GestureHandlerRootView>
          <Container safeArea>
@@ -123,7 +137,7 @@ const Login: React.FC<Props> = ({ ...props }) => {
                         icon={<Image type="icon" source={GoogleLogo} />}
                         fill
                         text="Continuar con Google"
-                        onPress={onSignInPress}
+                        onPress={onGooglePress}
                      />
                      {/* <Button
                         style={styles.secondSocial}
