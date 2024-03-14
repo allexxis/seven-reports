@@ -1,6 +1,6 @@
 import React, { useState, FC } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { THEME } from '@/constants/theme';
+import { THEME } from '@src/constants/theme';
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 import {
    TouchableWithoutFeedback,

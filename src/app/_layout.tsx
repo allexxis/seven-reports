@@ -5,13 +5,16 @@ import {
    ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { FC, useEffect } from 'react';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from '@src/components/useColorScheme';
 import Constants from 'expo-constants';
-import { ClerkProvider } from '@clerk/clerk-expo';
+import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
+
+import { router, Redirect } from 'expo-router';
+
 export {
    // Catch any errors thrown by the Layout component.
    ErrorBoundary,
@@ -39,6 +42,8 @@ export default function RootLayout() {
    useEffect(() => {
       if (loaded) {
          SplashScreen.hideAsync();
+
+         return;
       }
    }, [loaded]);
 
@@ -46,30 +51,30 @@ export default function RootLayout() {
       return null;
    }
 
-   return <RootLayoutNav />;
+   return (
+      <ClerkProvider
+         publishableKey={'pk_test_ZnVsbC1zbmlwZS01Mi5jbGVyay5hY2NvdW50cy5kZXYk'}
+      >
+         <RootLayoutNav />
+      </ClerkProvider>
+   );
 }
 
 function RootLayoutNav() {
    const colorScheme = useColorScheme();
 
    return (
-      <ClerkProvider
-         publishableKey={'pk_test_ZnVsbC1zbmlwZS01Mi5jbGVyay5hY2NvdW50cy5kZXYk'}
-      >
-         <ThemeProvider
-            value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-         >
-            <Stack>
-               <Stack.Screen
-                  name="index"
-                  options={{
-                     headerShown: false,
-                  }}
-               />
-               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-               <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-            </Stack>
-         </ThemeProvider>
-      </ClerkProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+         <Stack>
+            <Stack.Screen
+               name="index"
+               options={{
+                  headerShown: false,
+               }}
+            />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+         </Stack>
+      </ThemeProvider>
    );
 }
