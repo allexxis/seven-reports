@@ -34,16 +34,16 @@ export default function TabLayout() {
          <Tabs.Screen
             name="index"
             options={{
-               title: 'Tab One',
+               title: 'Reportes',
                tabBarIcon: ({ color }) => (
-                  <TabBarIcon name="code" color={color} />
+                  <TabBarIcon name="pie-chart" color={color} />
                ),
                headerRight: () => (
                   <Link href="/modal" asChild>
                      <Pressable>
                         {({ pressed }) => (
                            <FontAwesome
-                              name="info-circle"
+                              name="sliders"
                               size={25}
                               color={Colors[colorScheme ?? 'light'].text}
                               style={{
@@ -58,11 +58,11 @@ export default function TabLayout() {
             }}
          />
          <Tabs.Screen
-            name="two"
+            name="profile"
             options={{
-               title: 'Tab Two',
+               title: 'Perfil',
                tabBarIcon: ({ color }) => (
-                  <TabBarIcon name="code" color={color} />
+                  <TabBarIcon name="user" color={color} />
                ),
             }}
          />

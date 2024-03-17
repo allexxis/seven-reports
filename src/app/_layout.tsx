@@ -5,15 +5,12 @@ import {
    ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Slot, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { FC, useEffect } from 'react';
-
+import { useEffect } from 'react';
+import { tokenCache } from '@src/lib/auth';
+import { ClerkProvider } from '@clerk/clerk-expo';
 import { useColorScheme } from '@src/components/useColorScheme';
-import Constants from 'expo-constants';
-import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
-
-import { router, Redirect } from 'expo-router';
 
 export {
    // Catch any errors thrown by the Layout component.
@@ -59,6 +56,7 @@ function RootLayoutNav() {
 
    return (
       <ClerkProvider
+         tokenCache={tokenCache}
          publishableKey={'pk_test_ZnVsbC1zbmlwZS01Mi5jbGVyay5hY2NvdW50cy5kZXYk'}
       >
          <ThemeProvider
@@ -72,6 +70,10 @@ function RootLayoutNav() {
                   }}
                />
                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+               <Stack.Screen
+                  name="filters"
+                  options={{ presentation: 'modal' }}
+               />
                <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
             </Stack>
          </ThemeProvider>

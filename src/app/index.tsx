@@ -1,5 +1,6 @@
 import GoogleLogo from '@assets/images/google-logo.png';
-import { useSignIn, useAuth } from '@clerk/clerk-expo';
+import { useAuth, useSignIn } from '@clerk/clerk-expo';
+import GoogleOAuth from '@components/Auth/GoogleOAuth';
 import Button from '@components/Button';
 import Container from '@components/Container';
 import Header from '@components/Header';
@@ -7,11 +8,11 @@ import Image from '@components/Image';
 import Input from '@components/Input';
 import Text from '@components/Text';
 import { THEME } from '@src/constants/theme';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { router } from 'expo-router';
-import GoogleOAuth from '@components/Auth/GoogleOAuth';
+
 type Props = any;
 const Login: React.FC<Props> = ({ ...props }) => {
    const [loading, setL] = useState(false);
