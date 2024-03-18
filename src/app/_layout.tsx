@@ -11,7 +11,9 @@ import { useEffect } from 'react';
 import { tokenCache } from '@src/lib/auth';
 import { ClerkProvider } from '@clerk/clerk-expo';
 import { useColorScheme } from '@src/components/useColorScheme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+const queryClient = new QueryClient();
 export {
    // Catch any errors thrown by the Layout component.
    ErrorBoundary,
@@ -55,28 +57,38 @@ function RootLayoutNav() {
    const colorScheme = useColorScheme();
 
    return (
-      <ClerkProvider
-         tokenCache={tokenCache}
-         publishableKey={'pk_test_ZnVsbC1zbmlwZS01Mi5jbGVyay5hY2NvdW50cy5kZXYk'}
-      >
-         <ThemeProvider
-            value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      <QueryClientProvider client={queryClient}>
+         <ClerkProvider
+            tokenCache={tokenCache}
+            publishableKey={
+               'pk_test_ZnVsbC1zbmlwZS01Mi5jbGVyay5hY2NvdW50cy5kZXYk'
+            }
          >
-            <Stack>
-               <Stack.Screen
-                  name="index"
-                  options={{
-                     headerShown: false,
-                  }}
-               />
-               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-               <Stack.Screen
-                  name="filters"
-                  options={{ presentation: 'modal' }}
-               />
-               <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-            </Stack>
-         </ThemeProvider>
-      </ClerkProvider>
+            <ThemeProvider
+               value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+            >
+               <Stack>
+                  <Stack.Screen
+                     name="index"
+                     options={{
+                        headerShown: false,
+                     }}
+                  />
+                  <Stack.Screen
+                     name="(tabs)"
+                     options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                     name="filters"
+                     options={{ presentation: 'modal', title: 'Filtros' }}
+                  />
+                  <Stack.Screen
+                     name="modal"
+                     options={{ presentation: 'modal' }}
+                  />
+               </Stack>
+            </ThemeProvider>
+         </ClerkProvider>
+      </QueryClientProvider>
    );
 }

@@ -39,7 +39,7 @@ export default function TabLayout() {
                   <TabBarIcon name="pie-chart" color={color} />
                ),
                headerRight: () => (
-                  <Link href="/modal" asChild>
+                  <Link href="/filters" asChild>
                      <Pressable>
                         {({ pressed }) => (
                            <FontAwesome
