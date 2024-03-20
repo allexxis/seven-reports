@@ -10,7 +10,7 @@ interface SelectedValue {
 interface SelectProps {
    style?: StyleProp<ViewStyle>;
    values: SelectedValue[];
-   onChange: (value?: SelectedValue) => void;
+   onChange: (value?: any) => void;
    query?: any;
    required?: boolean;
    filterKey?: string;
@@ -42,6 +42,9 @@ const Select: FC<SelectProps> = ({
          query(token)
             .then((data: any) => {
                setNewValues([...newValues, ...data]);
+               if (required && data.length > 0) {
+                  onChange(data[0].value);
+               }
             })
             .catch((error: any) => {
                console.error('MSG ' + filterKey, error.message);
@@ -50,6 +53,9 @@ const Select: FC<SelectProps> = ({
       if (typeof query === 'function') {
          execQuery();
       } else {
+         if (required && values.length > 0) {
+            onChange(values[0].value);
+         }
          setNewValues([...newValues, ...values]);
       }
    }, []);
@@ -65,6 +71,7 @@ const Select: FC<SelectProps> = ({
             color: 'black',
             backgroundColor: 'white',
             fontSize: 15,
+            borderRadius: 100,
          }}
          style={[
             style,
@@ -78,11 +85,11 @@ const Select: FC<SelectProps> = ({
             },
          ]}
          onValueChange={(itemValue, itemIndex) => {
-            setSelectedValue(itemValue.toString());
+            setSelectedValue(itemValue);
             if (itemValue === 'undefined') {
                onChange(undefined);
             } else {
-               onChange(values[itemIndex]);
+               onChange(itemValue);
             }
          }}
       >
