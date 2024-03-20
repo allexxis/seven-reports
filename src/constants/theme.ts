@@ -1,4 +1,4 @@
-const primaryColor = '#4952C7';
+const primaryColor = '#5900D9';
 // const defaultBackground = '#FFFFF';
 export const THEME = {
    sizes: {

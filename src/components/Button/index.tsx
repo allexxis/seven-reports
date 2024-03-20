@@ -112,7 +112,13 @@ const Button: React.FC<ButtonProps> = ({
             transparent
             style={[styles.button, style]}
             disable={disabled}
-            backgroundColor={transparent ? '#FFF' : fill ? '#4952C7' : ''}
+            backgroundColor={
+               transparent
+                  ? '#FFF'
+                  : fill
+                  ? THEME.colors.buttonFillBackground
+                  : ''
+            }
             fill
             radius="button"
             onPress={disabled ? () => {} : onPress}
@@ -137,7 +143,7 @@ const Button: React.FC<ButtonProps> = ({
       <RippleButton
          style={styles.button}
          disable={disabled}
-         backgroundColor={fill ? '#4952C7' : ''}
+         backgroundColor={fill ? THEME.colors.buttonFillBackground : ''}
          fill
          radius="button"
          onPress={disabled ? () => {} : onPress}

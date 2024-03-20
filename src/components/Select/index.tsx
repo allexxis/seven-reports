@@ -41,7 +41,7 @@ const Select: FC<SelectProps> = ({
 
          query(token)
             .then((data: any) => {
-               setNewValues([...newValues, ...data]);
+               setNewValues((prev) => [...prev, ...data]);
                if (required && data.length > 0) {
                   onChange(data[0].value);
                }
@@ -56,7 +56,7 @@ const Select: FC<SelectProps> = ({
          if (required && values.length > 0) {
             onChange(values[0].value);
          }
-         setNewValues([...newValues, ...values]);
+         setNewValues((prev) => [...prev, ...values]);
       }
    }, []);
    const [selectedValue, setSelectedValue] = useState('undefined');

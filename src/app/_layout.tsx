@@ -1,17 +1,15 @@
+import { ClerkProvider } from '@clerk/clerk-expo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import {
-   DarkTheme,
-   DefaultTheme,
-   ThemeProvider,
-} from '@react-navigation/native';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useColorScheme } from '@src/components/useColorScheme';
+import { tokenCache } from '@src/lib/auth';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { tokenCache } from '@src/lib/auth';
-import { ClerkProvider } from '@clerk/clerk-expo';
-import { useColorScheme } from '@src/components/useColorScheme';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Platform } from 'react-native';
 
 const queryClient = new QueryClient();
 export {
@@ -67,6 +65,7 @@ function RootLayoutNav() {
             <ThemeProvider
                value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}
             >
+               <StatusBar style={Platform.OS === 'ios' ? 'light' : 'dark'} />
                <Stack>
                   <Stack.Screen
                      name="index"

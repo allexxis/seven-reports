@@ -1,12 +1,14 @@
 import Text from '@components/Text';
 import Button from '@src/components/Button';
 import Select from '@src/components/Select';
-import seven from '@src/lib/seven';
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { Platform, StyleSheet, View, ScrollView } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { THEME } from '@src/constants/theme';
+import seven from '@src/lib/seven';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import FilterList from '@src/components/Filter/FilterList';
+
 export type UIFilterType =
    | 'select'
    | 'date-range'
@@ -49,46 +51,7 @@ export default function FiltersScreen() {
       <GestureHandlerRootView style={{ display: 'flex', flex: 1 }}>
          <View style={{ flex: 1 }}>
             <ScrollView style={{ backgroundColor: 'white' }}>
-               <View style={styles.container}>
-                  <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-                  {data &&
-                     data.map((filter) => {
-                        const query = filter.query
-                           ? seven.fdk[
-                                filter.values.toString() as keyof typeof seven
-                             ]
-                           : undefined;
-                        if (filter.type === 'select') {
-                           return (
-                              <View style={styles.filter} key={filter.key}>
-                                 <Text
-                                    style={styles.header}
-                                    text={filter.label.toUpperCase()}
-                                 />
-
-                                 <Select
-                                    filterKey={filter.key}
-                                    required={filter.required}
-                                    query={filter.query ? query : undefined}
-                                    values={filter.values}
-                                    onChange={(value) => {
-                                       updateForm(
-                                          filter.type,
-                                          filter.key,
-                                          value
-                                       );
-                                    }}
-                                 />
-                              </View>
-                           );
-                        }
-                        return (
-                           <View
-                              style={{ display: 'none', width: 0, height: 0 }}
-                           />
-                        );
-                     })}
-               </View>
+               <FilterList filters={data} updateForm={updateForm} />
             </ScrollView>
          </View>
          <View style={styles.buttonsContainer}>
@@ -97,7 +60,7 @@ export default function FiltersScreen() {
                   fill
                   text="Cancelar"
                   onPress={() => {
-                     console.log('Cancelar');
+                     router.back();
                   }}
                />
             </View>
@@ -116,15 +79,6 @@ export default function FiltersScreen() {
 }
 
 const styles = StyleSheet.create({
-   container: {
-      paddingTop: 20,
-      paddingHorizontal: 20,
-      display: 'flex',
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: THEME.colors.defaultBackground,
-   },
    buttonsContainer: {
       width: '100%',
       flexDirection: 'row',
@@ -134,17 +88,5 @@ const styles = StyleSheet.create({
       paddingBottom: 20,
       justifyContent: 'space-between',
       gap: 10,
-   },
-   header: {
-      fontSize: 18,
-      textAlign: 'left',
-      fontWeight: '300',
-      color: THEME.colors.textPrimary,
-   },
-   filter: {
-      width: '100%',
-      display: 'flex',
-      paddingVertical: 0,
-      margin: 0,
    },
 });

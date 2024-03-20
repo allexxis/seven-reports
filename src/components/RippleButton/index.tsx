@@ -33,7 +33,7 @@ function RippleButton({
    rippleScale = 1,
    duration = 250,
    overflow = false,
-   rippleColor = '#000',
+   rippleColor = '#00000',
    rippleOpacity = 0.5,
    disable,
 }: RippleButtonProps) {

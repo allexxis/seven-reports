@@ -22,7 +22,6 @@ const Login: React.FC<Props> = ({ ...props }) => {
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
    const [showGoogleAuth, setShowGoogleAuth] = useState(false);
-   if (isLoaded && isSignedIn) router.replace('/(tabs)');
 
    useEffect(() => {
       if (isSignedIn) {
