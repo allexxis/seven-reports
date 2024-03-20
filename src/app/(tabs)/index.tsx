@@ -4,8 +4,12 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BarChart from '@components/BarChart';
 import Button from '@src/components/Button';
 import seven from '@src/lib/seven';
-export default function TabOneScreen() {
-   const { mutate, data, error } = seven.explotacion.useExplotacion({
+import { FC, useContext, useEffect } from 'react';
+import AppContext from '@src/context/AppContex';
+const TabOneScreen: FC = () => {
+   const { reports, setReports } = useContext(AppContext);
+   console.log(reports);
+   const { mutate, data, error, isPending } = seven.explotacion.useExplotacion({
       dates: {
          from: '2024-01-01',
          to: '2024-03-05',
@@ -14,21 +18,31 @@ export default function TabOneScreen() {
       currencyId: 2,
       filters: {},
    });
+   useEffect(() => {
+      if (data) {
+         console.log(data.results[0]);
+      }
+      if (error) {
+         console.log(error);
+      }
+   }, [data, error]);
+
    return (
       <GestureHandlerRootView style={styles.handler}>
          <View style={styles.container}>
             <Button
+               loading={isPending}
                fill
                text="Explotación"
                onPress={() => {
-                  mutate();
+                  setReports({ explotacion: 'hola' });
                }}
             />
             <BarChart />
          </View>
       </GestureHandlerRootView>
    );
-}
+};
 
 const styles = StyleSheet.create({
    handler: {
@@ -41,3 +55,4 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
    },
 });
+export default TabOneScreen;

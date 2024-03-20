@@ -2,6 +2,8 @@ import { ClerkProvider } from '@clerk/clerk-expo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useColorScheme } from '@src/components/useColorScheme';
+import { defaultAppContext } from '@src/context/AppContex';
+import AppProvider from '@src/context/AppProvider';
 import { tokenCache } from '@src/lib/auth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
@@ -62,31 +64,33 @@ function RootLayoutNav() {
                'pk_test_ZnVsbC1zbmlwZS01Mi5jbGVyay5hY2NvdW50cy5kZXYk'
             }
          >
-            <ThemeProvider
-               value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}
-            >
-               <StatusBar style={Platform.OS === 'ios' ? 'light' : 'dark'} />
-               <Stack>
-                  <Stack.Screen
-                     name="index"
-                     options={{
-                        headerShown: false,
-                     }}
-                  />
-                  <Stack.Screen
-                     name="(tabs)"
-                     options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                     name="filters"
-                     options={{ presentation: 'modal', title: 'Filtros' }}
-                  />
-                  <Stack.Screen
-                     name="modal"
-                     options={{ presentation: 'modal' }}
-                  />
-               </Stack>
-            </ThemeProvider>
+            <AppProvider value={defaultAppContext}>
+               <ThemeProvider
+                  value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}
+               >
+                  <StatusBar style={Platform.OS === 'ios' ? 'light' : 'dark'} />
+                  <Stack>
+                     <Stack.Screen
+                        name="index"
+                        options={{
+                           headerShown: false,
+                        }}
+                     />
+                     <Stack.Screen
+                        name="(tabs)"
+                        options={{ headerShown: false }}
+                     />
+                     <Stack.Screen
+                        name="filters"
+                        options={{ presentation: 'modal', title: 'Filtros' }}
+                     />
+                     <Stack.Screen
+                        name="modal"
+                        options={{ presentation: 'modal' }}
+                     />
+                  </Stack>
+               </ThemeProvider>
+            </AppProvider>
          </ClerkProvider>
       </QueryClientProvider>
    );

@@ -23,7 +23,7 @@ export const filters = async (getToken: any): Promise<UIFilter[]> => {
 
    return data.data.filters;
 };
-export const explotacion = async (getToken: any, body: any): Promise<any[]> => {
+export const explotacion = async (getToken: any, body: any): Promise<any> => {
    const token = await getToken();
    const res = await fetch(PATH, {
       method: 'POST',
