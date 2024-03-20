@@ -3,8 +3,11 @@ import Text from '@components/Text';
 import Ripple from '@src/components/RippleButton';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useAuth } from '@clerk/clerk-expo';
+import * as SecureStore from 'expo-secure-store';
+
 export default function TabTwoScreen() {
    const { signOut } = useAuth();
+
    return (
       <GestureHandlerRootView style={styles.handler}>
          <View style={styles.container}>

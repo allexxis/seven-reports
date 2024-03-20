@@ -12,6 +12,7 @@ export const filters = async (): Promise<UIFilter[]> => {
    if (data.error) {
       throw new Error(data.error);
    }
+
    return data.data.filters;
 };
 
@@ -25,4 +26,5 @@ export const useExplotacionFilters = () => {
 
 export default {
    useExplotacionFilters,
+   filters,
 };
