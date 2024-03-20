@@ -1,15 +1,19 @@
 import * as React from 'react';
 
 interface AppReports {
-   explotacion: any;
+   explotacion: {
+      form: any;
+   };
 }
 export interface IAppContext {
    reports: AppReports;
-   setReports: (reports: any) => void;
+   setReports: (reports: AppReports) => void;
 }
 export const defaultAppContext = {
    reports: {
-      explotacion: null,
+      explotacion: {
+         form: null,
+      },
    },
    setReports: () => {},
 };

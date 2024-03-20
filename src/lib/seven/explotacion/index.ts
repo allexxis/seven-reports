@@ -9,12 +9,13 @@ const PATH = `${BASE_URL}/v1/reports/dss/explotacion`;
 export const filters = async (getToken: any): Promise<UIFilter[]> => {
    const token = await getToken();
    const res = await fetch(PATH + '?filters=true', {
+      method: 'POST',
       headers: {
          Authorization: `Bearer ${token}`,
       },
    });
    if (!res.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error('Network response was not ok' + `status ${res.status}`);
    }
    const data = await res.json();
    if (data.error) {
@@ -49,9 +50,9 @@ export const explotacion = async (getToken: any, body: any): Promise<any> => {
 export const useExplotacionFilters = () => {
    const { session } = useSession();
 
-   return useQuery({
-      queryKey: ['explotacion.filters'],
-      queryFn: () => filters(session?.getToken),
+   return useMutation({
+      mutationKey: ['explotacion.filters'],
+      mutationFn: () => filters(session?.getToken),
       networkMode: 'offlineFirst',
    });
 };

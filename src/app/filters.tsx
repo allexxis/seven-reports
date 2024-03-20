@@ -4,10 +4,11 @@ import Select from '@src/components/Select';
 import { THEME } from '@src/constants/theme';
 import seven from '@src/lib/seven';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import FilterList from '@src/components/Filter/FilterList';
+import AppContext from '@src/context/AppContex';
 
 export type UIFilterType =
    | 'select'
@@ -26,10 +27,13 @@ export interface UIFilter {
    required?: boolean;
 }
 export default function FiltersScreen() {
-   const { data, error } = seven.explotacion.useExplotacionFilters();
+   const { setReports } = useContext(AppContext);
+   const { data, error, mutate } = seven.explotacion.useExplotacionFilters();
    const [form, setForm] = useState<any>({});
    const [savedForm, setSavedForm] = useState<any>({});
-
+   useEffect(() => {
+      mutate();
+   }, []);
    const updateForm = (type: UIFilterType, key: string, value: any) => {
       if (key.includes('.')) {
          const keys = key.split('.');
@@ -46,7 +50,6 @@ export default function FiltersScreen() {
          setForm((prev: any) => ({ ...prev, [key]: value }));
       }
    };
-   console.log(form);
    return (
       <GestureHandlerRootView style={{ display: 'flex', flex: 1 }}>
          <View style={{ flex: 1 }}>
@@ -69,7 +72,19 @@ export default function FiltersScreen() {
                   fill
                   text="Aplicar"
                   onPress={() => {
-                     console.log('Aplicar');
+                     setReports({
+                        explotacion: {
+                           form: {
+                              dates: {
+                                 from: '2024-01-01',
+                                 to: '2024-03-05',
+                              },
+                              type: 'TOTAL_BY_AGENCY',
+                              currencyId: 2,
+                              filters: {},
+                           },
+                        },
+                     });
                   }}
                />
             </View>

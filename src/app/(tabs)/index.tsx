@@ -8,16 +8,9 @@ import { FC, useContext, useEffect } from 'react';
 import AppContext from '@src/context/AppContex';
 const TabOneScreen: FC = () => {
    const { reports, setReports } = useContext(AppContext);
-   console.log(reports);
-   const { mutate, data, error, isPending } = seven.explotacion.useExplotacion({
-      dates: {
-         from: '2024-01-01',
-         to: '2024-03-05',
-      },
-      type: 'TOTAL_BY_AGENCY',
-      currencyId: 2,
-      filters: {},
-   });
+   const { mutate, data, error, isPending } = seven.explotacion.useExplotacion(
+      reports.explotacion.form
+   );
    useEffect(() => {
       if (data) {
          console.log(data.results[0]);
@@ -26,7 +19,11 @@ const TabOneScreen: FC = () => {
          console.log(error);
       }
    }, [data, error]);
-
+   useEffect(() => {
+      if (reports.explotacion.form) {
+         console.log(reports.explotacion.form);
+      }
+   }, [reports]);
    return (
       <GestureHandlerRootView style={styles.handler}>
          <View style={styles.container}>
@@ -35,7 +32,7 @@ const TabOneScreen: FC = () => {
                fill
                text="Explotación"
                onPress={() => {
-                  setReports({ explotacion: 'hola' });
+                  mutate();
                }}
             />
             <BarChart />
