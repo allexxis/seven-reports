@@ -6,22 +6,7 @@ import Button from '@src/components/Button';
 import seven from '@src/lib/seven';
 import { FC, useContext, useEffect, useState } from 'react';
 import AppContext from '@src/context/AppContex';
-const groupByIndex = (arr: any[], index: number) =>
-   arr.reduce((acc, curr) => {
-      const key = curr[index];
-      acc[key] = acc[key] || [];
-      acc[key].push(curr);
-      return acc;
-   }, {});
-const aggregateByIndex = (arr: any[], index: number) => {
-   return arr.reduce((acc, curr) => {
-      if (typeof curr[index] === 'number') {
-         return acc + curr[index];
-      }
-      return acc;
-   }, 0);
-};
-
+import arrays from '@src/utils/arrays';
 const TabOneScreen: FC = () => {
    const { reports, setReports } = useContext(AppContext);
    const { mutate, data, error, isPending } = seven.explotacion.useExplotacion(
@@ -33,9 +18,9 @@ const TabOneScreen: FC = () => {
          setTitle(data.hotel);
          console.log(data.table[0]);
          console.log('Largo total: ', data.table.length);
-         const grouped = groupByIndex(data.table, 2);
+         const grouped = arrays.groupByIndex(data.table, 2);
          Object.keys(grouped).forEach((key) => {
-            const value = aggregateByIndex(grouped[key], 35);
+            const value = arrays.aggregateByIndex(grouped[key], 35);
             grouped[key] = value;
          });
 

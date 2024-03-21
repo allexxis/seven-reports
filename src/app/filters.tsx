@@ -34,6 +34,11 @@ export default function FiltersScreen() {
    useEffect(() => {
       mutate();
    }, []);
+   useEffect(() => {
+      if (error) {
+         console.log(error);
+      }
+   }, [error]);
    const updateForm = (type: UIFilterType, key: string, value: any) => {
       if (key.includes('.')) {
          const keys = key.split('.');
