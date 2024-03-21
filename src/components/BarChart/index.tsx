@@ -2,7 +2,12 @@ import { FC } from 'react';
 import { View } from 'react-native';
 import { BarChart as Chart } from 'react-native-gifted-charts';
 import { THEME } from '@src/constants/theme';
-const BarChart: FC = () => {
+import Text from '@src/components/Text';
+
+interface BarChartProps {
+   title?: string;
+}
+const BarChart: FC<BarChartProps> = ({ title }) => {
    const barData = [
       { value: 250, label: 'M' },
       { value: 500, label: 'T', frontColor: THEME.colors.primary },
@@ -12,8 +17,15 @@ const BarChart: FC = () => {
       { value: 256, label: 'S' },
       { value: 300, label: 'S' },
    ];
+
    return (
       <View>
+         {title && title !== '' && (
+            <Text
+               style={{ textAlign: 'center', marginBottom: 10 }}
+               text={title.toUpperCase()}
+            />
+         )}
          <Chart
             barWidth={22}
             noOfSections={3}

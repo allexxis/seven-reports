@@ -4,16 +4,42 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BarChart from '@components/BarChart';
 import Button from '@src/components/Button';
 import seven from '@src/lib/seven';
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import AppContext from '@src/context/AppContex';
+const groupByIndex = (arr: any[], index: number) =>
+   arr.reduce((acc, curr) => {
+      const key = curr[index];
+      acc[key] = acc[key] || [];
+      acc[key].push(curr);
+      return acc;
+   }, {});
+const aggregateByIndex = (arr: any[], index: number) => {
+   return arr.reduce((acc, curr) => {
+      if (typeof curr[index] === 'number') {
+         return acc + curr[index];
+      }
+      return acc;
+   }, 0);
+};
+
 const TabOneScreen: FC = () => {
    const { reports, setReports } = useContext(AppContext);
    const { mutate, data, error, isPending } = seven.explotacion.useExplotacion(
       reports.explotacion.form
    );
+   const [title, setTitle] = useState<string>('');
    useEffect(() => {
       if (data) {
-         console.log(data.results[0]);
+         setTitle(data.hotel);
+         console.log(data.table[0]);
+         console.log('Largo total: ', data.table.length);
+         const grouped = groupByIndex(data.table, 2);
+         Object.keys(grouped).forEach((key) => {
+            const value = aggregateByIndex(grouped[key], 35);
+            grouped[key] = value;
+         });
+
+         console.log(grouped);
       }
       if (error) {
          console.log(error);
@@ -27,15 +53,24 @@ const TabOneScreen: FC = () => {
    return (
       <GestureHandlerRootView style={styles.handler}>
          <View style={styles.container}>
-            <Button
-               loading={isPending}
-               fill
-               text="Explotación"
-               onPress={() => {
-                  mutate();
+            <BarChart title={title} />
+            <View
+               style={{
+                  marginTop: 60,
+                  width: 100,
+                  height: 20,
+                  backgroundColor: 'white',
                }}
-            />
-            <BarChart />
+            >
+               <Button
+                  loading={isPending}
+                  fill
+                  text="Explotación"
+                  onPress={() => {
+                     mutate();
+                  }}
+               />
+            </View>
          </View>
       </GestureHandlerRootView>
    );

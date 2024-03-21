@@ -76,15 +76,16 @@ export default function FiltersScreen() {
                         explotacion: {
                            form: {
                               dates: {
-                                 from: '2024-01-01',
-                                 to: '2024-03-05',
+                                 from: '2024-03-01',
+                                 to: '2024-03-31',
                               },
-                              type: 'TOTAL_BY_AGENCY',
-                              currencyId: 2,
+                              type: 'TOTAL_BY_AGENCY_DETAILED_BY_PRICE',
+                              currencyId: 3,
                               filters: {},
                            },
                         },
                      });
+                     router.back();
                   }}
                />
             </View>
